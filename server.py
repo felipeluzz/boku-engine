@@ -452,6 +452,13 @@ def movimentos():
     else:
         return str(game.get_available_moves())
 
+@app.route("/proibidos")
+def forbidden():
+    if request.args.get('format') == "json":
+        return jsonify(game.forbidden_moves)
+    else:
+        return str(game.forbidden_moves)
+
 
 @app.route("/num_movimentos")
 def num_movimentos():
@@ -459,7 +466,6 @@ def num_movimentos():
         return jsonify(game.movements)
     else:
         return str(game.movements)
-
 
 @app.route("/ultima_jogada")
 def ultima_jogada():
