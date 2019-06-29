@@ -14,7 +14,7 @@ def get_available_moves(board, player, forbidden_move):
     for column in range(len(board)):
         for line in range(len(board[column])):
             if board[column][line] == 0:
-                if (column + 1, line + 1) != forbidden_move:
+                if not ((column + 1, line + 1) in forbidden_move):
                     l.append((column + 1, line + 1))
     return l
 
@@ -118,6 +118,137 @@ def neighbors(board, column, line):
 
 # ---------------------------------------------------
 
+# ---------------- Métodos auxiliares ----------------
+
+def get_board():
+    return [
+        (1,1), (1,2), (1,3), (1,4), (1,5),
+        (2,1), (2,2), (2,3), (2,4), (2,5), (2,6),
+        (3,1), (3,2), (3,3), (3,4), (3,5), (3,6), (3,7),
+        (4,1), (4,2), (4,3), (4,4), (4,5), (4,6), (4,7), (4,8),
+        (5,1), (5,2), (5,3), (5,4), (5,5), (5,6), (5,7), (5,8), (5,9),
+        (6,1), (6,2), (6,3), (6,4), (6,5), (6,6), (6,7), (6,8), (6,9), (6,10),
+        (7,1), (7,2), (7,3), (7,4), (7,5), (7,6), (7,7), (7,8), (7,9),
+        (8,1), (8,2), (8,3), (8,4), (8,5), (8,6), (8,7), (8,8),
+        (9,1), (9,2), (9,3), (9,4), (9,5), (9,6), (9,7),
+        (10,1), (10,2), (10,3), (10,4), (10,5), (10,6),
+        (11,1), (11,2), (11,3), (11,4), (11,5)
+    ]
+
+# Função que diz o que tem nas diagonais e seus pontos
+def teste_diagonais(board_inicial, ponto_inicial, board):
+
+    print('Ponto Atual')
+    print(ponto_inicial)
+    # Conteúdo das diagonais
+    superior_esquerda = []
+    superior_direita = []
+    inferior_esquerda = []
+    inferior_direita = []
+    # Pontos das diagonais
+    pontos_superior_esquerda = []
+    pontos_superior_direita = []
+    pontos_inferior_esquerda = []
+    pontos_inferior_direita = []
+
+    valid = True
+    ponto_atual = ponto_inicial
+    # Diagonal superior esquerda
+    while valid:
+        # Se está no meio do tabuleiro ou na esquerda
+        if ponto_atual[0] == 6 or ponto_atual[0] < 6:
+            ponto_atual = (ponto_atual[0] - 1, ponto_atual[1] -1)
+            if not ponto_atual in board_inicial:
+                valid = False
+            else:
+                superior_esquerda.append(board[ponto_atual[0] -1][ponto_atual[1] - 1])
+                pontos_superior_esquerda.append(ponto_atual)
+        # Se está na direita do tabuleiro
+        elif ponto_atual[0] > 6:
+            ponto_atual = (ponto_atual[0] - 1, ponto_atual[1])
+            if not ponto_atual in board_inicial:
+                valid = False
+            else:
+                superior_esquerda.append(board[ponto_atual[0] -1][ponto_atual[1] - 1])
+                pontos_superior_esquerda.append(ponto_atual)
+
+    valid = True
+    ponto_atual = ponto_inicial
+    # Diagonal superior direita
+    while valid:
+        # Se está no meio do tabuleiro ou na direita
+        if ponto_atual[0] == 6 or ponto_atual[0] > 6:
+            ponto_atual = (ponto_atual[0] + 1, ponto_atual[1] -1)
+            if not ponto_atual in board_inicial:
+                valid = False
+            else:
+                superior_direita.append(board[ponto_atual[0] -1][ponto_atual[1] - 1])
+                pontos_superior_direita.append(ponto_atual)
+        # Se está na esquerda do tabuleiro
+        elif ponto_atual[0] < 6:
+            ponto_atual = (ponto_atual[0] + 1, ponto_atual[1])
+            if not ponto_atual in board_inicial:
+                valid = False
+            else:
+                superior_direita.append(board[ponto_atual[0] -1][ponto_atual[1] - 1])
+                pontos_superior_direita.append(ponto_atual)
+
+    valid = True
+    ponto_atual = ponto_inicial
+    # Diagonal inferior esquerda
+    while valid:
+        # Se está no meio do tabuleiro ou na esquerda
+        if ponto_atual[0] == 6 or ponto_atual[0] < 6:
+            ponto_atual = (ponto_atual[0] - 1, ponto_atual[1])
+            if not ponto_atual in board_inicial:
+                valid = False
+            else:
+                inferior_esquerda.append(board[ponto_atual[0] -1][ponto_atual[1] - 1])
+                pontos_inferior_esquerda.append(ponto_atual)
+        # Se está na direita do tabuleiro
+        elif ponto_atual[0] > 6:
+            ponto_atual = (ponto_atual[0] - 1, ponto_atual[1] + 1)
+            if not ponto_atual in board_inicial:
+                valid = False
+            else:
+                inferior_esquerda.append(board[ponto_atual[0] -1][ponto_atual[1] - 1])
+                pontos_inferior_esquerda.append(ponto_atual)
+
+    valid = True
+    ponto_atual = ponto_inicial
+    # Diagonal inferior direita
+    while valid:
+        # Se está no meio do tabuleiro ou na direita
+        if ponto_atual[0] == 6 or ponto_atual[0] > 6:
+            ponto_atual = (ponto_atual[0] + 1, ponto_atual[1])
+            if not ponto_atual in board_inicial:
+                valid = False
+            else:
+                inferior_direita.append(board[ponto_atual[0] -1][ponto_atual[1] - 1])
+                pontos_inferior_direita.append(ponto_atual)
+        # Se está na esquerda do tabuleiro
+        elif ponto_atual[0] < 6:
+            ponto_atual = (ponto_atual[0] + 1, ponto_atual[1] + 1)
+            if not ponto_atual in board_inicial:
+                valid = False
+            else:
+                inferior_direita.append(board[ponto_atual[0] -1][ponto_atual[1] - 1])
+                pontos_inferior_direita.append(ponto_atual)
+
+    print('Superior Esquerda: ')
+    print('\t Conteúdo: ' + str(superior_esquerda))
+    print('\t Pontos: ' + str(pontos_superior_esquerda))
+    print('Superior Direita: ')
+    print('\t Conteúdo: ' + str(superior_direita))
+    print('\t Pontos: ' + str(pontos_superior_direita))
+    print('Inferior Esquerda: ')
+    print('\t Conteúdo: ' + str(inferior_esquerda))
+    print('\t Pontos: ' + str(pontos_inferior_esquerda))
+    print('Inferior Direita: ')
+    print('\t Conteúdo: ' + str(inferior_direita))
+    print('\t Pontos: ' + str(pontos_inferior_direita))
+
+
 # ------------- Métodos de tomada de decisão ----------
 
 # Função de heurística básica
@@ -142,7 +273,7 @@ def heuristic(board, player):
     return 0
 
 # Método que faz um minimax com poda alpha beta, e escolhe o próximo movimento
-def alpha_beta_pruning(board, depth, player, initial_depth, initial_player, forbidden_move, alpha= -inf, beta = inf): 
+def alpha_beta_pruning(board, depth, player, initial_depth, initial_player, forbidden_move, alpha= -inf, beta = inf):
 
     # Checa se chegou ao objetivo
     final_state = is_final_state(board)
@@ -150,12 +281,12 @@ def alpha_beta_pruning(board, depth, player, initial_depth, initial_player, forb
         if final_state == 1:
             return -10, board
         else:
-            return 10, board 
+            return 10, board
 
     # Encerra quando descer até uma certa profundidade, neste caso 2
     if depth == initial_depth - 2:
         h = heuristic(board, initial_player)
-        return h, board 
+        return h, board
 
     # Para o primeiro jogador
     if player == '1':
@@ -166,15 +297,15 @@ def alpha_beta_pruning(board, depth, player, initial_depth, initial_player, forb
             column, line = move
             board_cpy[column-1][line-1] = 1
             value, _ = alpha_beta_pruning(board_cpy, depth-1, '2', initial_depth, initial_player, forbidden_move, alpha, beta)
-            if best_val > value:                
+            if best_val > value:
                 best_mov = move
-            
+
             best_val = min(value, best_val)
             beta = min(alpha, best_val)
             if alpha >= beta:
                 break
         return best_val, best_mov
-        
+
     # Para o segundo jogador
     else:
         best_val = -inf
@@ -184,9 +315,9 @@ def alpha_beta_pruning(board, depth, player, initial_depth, initial_player, forb
             column, line = move
             board_cpy[column-1][line-1] = 2
             value, _ = alpha_beta_pruning(board_cpy, depth-1, '1', initial_depth, initial_player, forbidden_move, alpha, beta)
-            if best_val < value:                
+            if best_val < value:
                 best_mov = move
-            
+
             best_val = max(value, best_val)
             alpha = max(alpha, best_val)
             if alpha >= beta:
@@ -213,7 +344,8 @@ resp = urllib.request.urlopen("%s/reiniciar" % host)
 
 done = False
 must_remove = False
-forbidden_move = None
+
+initial_board = get_board()
 
 while not done:
     # Pergunta quem eh o jogador
@@ -238,19 +370,22 @@ while not done:
         board = eval(resp.read()) #lista com 11 listas representando cada fileira na vertical (0 vazio, 1 player 1 e 2 player 2)
 
         # Pega os movimentos proibidos
-        resp = urllib.request.urlopen("%s/proibidos" % host)
-        forbidden_move = eval(resp.read())
+        forbidden_move = list(set(initial_board) - set(movimentos))
 
         # Escolhe um movimento com heurística, a não ser que precise remover, se precisar remove aleatóriamente
 
-        if must_remove:
-            movimento = random.choice(movimentos)
-            movimento = (0, movimento)
-            print(movimento)
-            must_remove = False
-        else:
-            movimento = alpha_beta_pruning(board, len(movimentos), str(player), len(movimentos), str(player), forbidden_move)
-            print(movimento)
+        movimento = random.choice(movimentos)
+        teste_diagonais(initial_board, movimento, board)
+        movimento = (10, movimento)
+
+        #if must_remove:
+        #    movimento = random.choice(movimentos)
+        #    movimento = (0, movimento)
+        #    print(movimento)
+        #    must_remove = False
+        #else:
+         #   movimento = alpha_beta_pruning(board, len(movimentos), str(player), len(movimentos), str(player), forbidden_move)
+          #  print(movimento)
 
         # Executa o movimento
         resp = urllib.request.urlopen("%s/move?player=%d&coluna=%d&linha=%d" % (host,player,movimento[1][0],movimento[1][1]))
@@ -267,6 +402,6 @@ while not done:
             done = True
         if msg[0]<0:
             raise Exception(msg[1])
-    
+
     # Descansa um pouco para nao inundar o servidor com requisicoes
     time.sleep(1)
