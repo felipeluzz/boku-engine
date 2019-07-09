@@ -573,13 +573,13 @@ def alpha_beta_pruning(board, depth, player, initial_depth, initial_player, init
     # Checa se chegou ao objetivo
     final_state = is_final_state(board)
     if final_state is not None:
-        if final_state == 1:
-            return -10, board
-        else:
+        if final_state == player:
             return 10, board
+        else:
+            return -10, board
 
     # Encerra quando descer até uma certa profundidade, neste caso 2
-    if depth == initial_depth - 3:
+    if depth == initial_depth - 2:
         h = heuristic(board, initial_player)
         return h, board
 
